@@ -20,7 +20,6 @@ public class CourseController {
     public CourseController(CourseService courseService) {
         this.courseService = courseService;
     }
-
     @GetMapping("/list")
     public String listCourses(Model model){
         List<Course> courses = courseService.getAllCourse();

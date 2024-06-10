@@ -26,10 +26,14 @@ public class MySecurity {
         http.authorizeHttpRequests(
                 configurer->configurer
                         .requestMatchers("/students/list").permitAll()
-                        .requestMatchers("/students/create").hasRole("TEACHER")
+                        .requestMatchers("/students/create").hasAnyRole("ADMIN", "TEACHER")
                         .requestMatchers("/students/update").hasAnyRole("ADMIN", "TEACHER")
                         .requestMatchers("/students/delete").hasRole("ADMIN")
                         .requestMatchers("/search").hasAnyRole("ADMIN","TEACHER","STUDENT")
+                        .requestMatchers("/courses/list").permitAll()
+                        .requestMatchers("/courses/create").hasAnyRole("ADMIN", "TEACHER")
+                        .requestMatchers("/courses/update").hasAnyRole("ADMIN", "TEACHER")
+                        .requestMatchers("/courses/delete").hasRole("ADMIN")
                         .anyRequest().permitAll()
         ).formLogin(
                 form->form.loginPage("/loginPage")
@@ -40,9 +44,7 @@ public class MySecurity {
                 logout->logout.permitAll()
         ).exceptionHandling(
                 configurer->configurer.accessDeniedPage("/page403")
-
         );
-
         return http.build();
     }
 }
